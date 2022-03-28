@@ -11,8 +11,10 @@ public class GrpcServer {
 
     public static void main(String[] args) {
         Database database =  Database.getInstance();
-        database.insertUser(Hash.getHashed("admin1"), "admin");
-        database.insertUser(Hash.getHashed("user2"), "user");
+//        database.insertUser(Hash.getHashed("admin1"), "admin");
+//        database.insertUser(Hash.getHashed("user2"), "user");
+        database.getAllUser();
+        System.out.println(database.check(Hash.getHashed("admin0"), "admin"));
         database.close();
 //        Server server = ServerBuilder.forPort(1234).addService(new userService()).build();
 //        try {

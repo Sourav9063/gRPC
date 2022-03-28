@@ -1,8 +1,5 @@
 import javax.xml.crypto.Data;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
     static public Database instance = null;
@@ -38,6 +35,32 @@ public class Database {
             System.out.println("Error in insertUser");
             e.printStackTrace();
         }
+    }
+    public void getAllUser(){
+        try{
+           ResultSet resultSet= statement.executeQuery("SELECT * FROM `user_data_hashed`");
+            System.out.println(resultSet.toString());
+//            System.out.println(resultSet.);
+        while (resultSet.next()){
+            System.out.println(resultSet.getString("email"));
+            System.out.println(resultSet.getString("password"));
+        }
+
+        }catch (Exception e){}
+
+    }
+    public boolean check(String email,String password){
+        try {
+            ResultSet resultSet= statement.executeQuery("SELECT * FROM `user_data_hashed` WHERE `email`='"+email+"' AND `password`='"+password+"'");
+            while (resultSet.next()){
+                if(resultSet.getString("email").equals(email)&&resultSet.getString("password").equals(password)){
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 public void close(){
     try {

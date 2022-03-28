@@ -3,6 +3,7 @@ option java_package = "com.demo.grpc";
 
 service user{
   rpc LogIn(LogInRequest) returns (LogInResponse) ;
+  
 }
 
 message LogInRequest{
