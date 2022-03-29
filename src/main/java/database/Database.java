@@ -1,4 +1,5 @@
-import javax.xml.crypto.Data;
+package database;
+
 import java.sql.*;
 
 public class Database {
@@ -27,14 +28,11 @@ public class Database {
         }
         return instance;
     }
-    public void insertUser(String email,String password){
-        try {
+    public void insertUser(String email,String password) throws SQLException {
+
 
             statement.executeUpdate("INSERT INTO `user_data_hashed`(`email`, `password`) VALUES ('"+email+"','"+password+"')");
-        } catch (Exception e) {
-            System.out.println("Error in insertUser");
-            e.printStackTrace();
-        }
+
     }
     public void getAllUser(){
         try{

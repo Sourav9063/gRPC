@@ -1,3 +1,5 @@
+package hash;
+
 import java.security.MessageDigest;
 
 public class Hash {
