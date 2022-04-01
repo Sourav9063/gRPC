@@ -4,6 +4,7 @@ import io.grpc.ServerBuilder;
 import service.userService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 

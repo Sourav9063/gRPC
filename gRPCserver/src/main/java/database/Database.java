@@ -3,7 +3,7 @@ package database;
 import java.sql.*;
 
 public class Database {
-    static public Database instance = null;
+    static private Database instance = null;
     private static Connection connection;
     private static Statement statement;
 
@@ -16,10 +16,11 @@ public class Database {
         if (instance == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/UserLogInData", "root", "");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grpc_user_login_data", "root",
+                        "");
                 statement = connection.createStatement();
 
-                 instance = new Database(connection, statement);
+                instance = new Database(connection, statement);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
@@ -28,30 +29,36 @@ public class Database {
         }
         return instance;
     }
-    public void insertUser(String email,String password) throws SQLException {
 
+    public void insertUser(String email, String password) throws SQLException {
 
-            statement.executeUpdate("INSERT INTO `user_data_hashed`(`email`, `password`) VALUES ('"+email+"','"+password+"')");
+        statement.executeUpdate(
+                "INSERT INTO `tbl_hashed_user_data`(`email`, `password`) VALUES ('" + email + "','" + password + "')");
 
     }
-    public void getAllUser(){
-        try{
-           ResultSet resultSet= statement.executeQuery("SELECT * FROM `user_data_hashed`");
+
+    public void getAllUser() {
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM `tbl_hashed_user_data`");
             System.out.println(resultSet.toString());
-//            System.out.println(resultSet.);
-        while (resultSet.next()){
-            System.out.println(resultSet.getString("email"));
-            System.out.println(resultSet.getString("password"));
+            // System.out.println(resultSet.);
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString("email"));
+                System.out.println(resultSet.getString("password"));
+            }
+
+        } catch (Exception e) {
         }
 
-        }catch (Exception e){}
-
     }
-    public boolean check(String email,String password){
+
+    public boolean check(String email, String password) {
         try {
-            ResultSet resultSet= statement.executeQuery("SELECT * FROM `user_data_hashed` WHERE `email`='"+email+"' AND `password`='"+password+"'");
-            while (resultSet.next()){
-                if(resultSet.getString("email").equals(email)&&resultSet.getString("password").equals(password)){
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT * FROM `tbl_hashed_user_data` WHERE `email`='" + email + "' AND `password`='" + password
+                            + "'");
+            while (resultSet.next()) {
+                if (resultSet.getString("email").equals(email) && resultSet.getString("password").equals(password)) {
                     return true;
                 }
             }
@@ -60,14 +67,12 @@ public class Database {
         }
         return false;
     }
-public void close(){
-    try {
-        connection.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
-}
-
-
-
